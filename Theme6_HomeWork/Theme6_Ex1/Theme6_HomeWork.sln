@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Theme6_Add_Ex", "Theme6_Add
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Theme6_Add_Ex", "Theme6_Add_Ex", "{1A8DA6D3-6FE4-489A-8034-83E26FD6B1F4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeWork6_.NET", "Theme6_Add_Ex.NET\HomeWork6_.NET\HomeWork6_.NET.csproj", "{0690B07D-1194-4ED6-8CB5-B97F840C782B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,14 @@ Global
 		{16B71454-CFFA-4269-92C3-451ED7014699}.Release|Any CPU.Build.0 = Release|Any CPU
 		{16B71454-CFFA-4269-92C3-451ED7014699}.Release|x64.ActiveCfg = Release|x64
 		{16B71454-CFFA-4269-92C3-451ED7014699}.Release|x64.Build.0 = Release|x64
+		{0690B07D-1194-4ED6-8CB5-B97F840C782B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0690B07D-1194-4ED6-8CB5-B97F840C782B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0690B07D-1194-4ED6-8CB5-B97F840C782B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0690B07D-1194-4ED6-8CB5-B97F840C782B}.Debug|x64.Build.0 = Debug|Any CPU
+		{0690B07D-1194-4ED6-8CB5-B97F840C782B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0690B07D-1194-4ED6-8CB5-B97F840C782B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0690B07D-1194-4ED6-8CB5-B97F840C782B}.Release|x64.ActiveCfg = Release|Any CPU
+		{0690B07D-1194-4ED6-8CB5-B97F840C782B}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

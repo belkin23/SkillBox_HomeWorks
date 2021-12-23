@@ -83,7 +83,7 @@ namespace Theme6_Add_Ex
                 using (StreamReader sr = new StreamReader(fileName)) // Создаем поток и читаем в него файл
                 {
                     string number = sr.ReadLine();
-                    
+
                     return number; // Возвращаем сформированные строки из файла без разделителей
                 }
             }
@@ -122,15 +122,17 @@ namespace Theme6_Add_Ex
         {
             using (StreamWriter sw = new StreamWriter(path, false, Encoding.Default))
             {
-                //List<List<int>> list = new List<List<int>>();
+                List<List<int>> list = new List<List<int>>();
                 //List<string> line = new List<string>();
                 //List<string> file = new List<string>();
                 //StringBuilder line = new StringBuilder();
                 //StringBuilder file = new StringBuilder();
-                //list.Add(new List<int>());
+                //list.Capacity = N;
+                list.Add(new List<int>());
                 //List<int> list = new List<int>();
 
-                int num = 1;
+
+                int num = 2;
                 int group = 0;
 
                 // Чем меньше переборов всего числа, тем быстрее, т.е. один цикл самый оптимальный вариант
@@ -139,6 +141,8 @@ namespace Theme6_Add_Ex
                 // При прямой записи файла получается очень долго (больше 3 минут), но работает так, как в пямяти ни чего не храниться
                 // Формирование строки заранее в StringBuilder или в string не улучшает ситуацию, оперция записи на диск слишком долгая...
                 // По всей видимости выбран не верный способ разбиения чисел на группы и их проверка на делимость...
+
+                // .NET 6 Умеет работать со списками без ограничений на размер!!! 
                 for (int i = 1; i <= N; i++)
                 {
                     if (i % num == 0)
@@ -146,36 +150,39 @@ namespace Theme6_Add_Ex
                         num = i;
                         group++;
 
-                        //list.Add(new List<int>());
-                        //line.Add(i.ToString());
+                        list.Add(new List<int>());
+                        list[group].Add(i);
+                        //list.Add($"\nГруппа {group}: {i}");
                         //line = line + " " + i.ToString();
-                        //line.Append(i);
+                        //line.Append();
                         //file.AppendLine(line.ToString());
-                        sw.WriteLine($"\nГруппа {group}: {i}");
+                        //sw.WriteLine($"\nГруппа {group}: {i}");
                         //line.Clear();
                         //line.Clear();
                     }
                     //else line = line+i.ToString();
-                    //else list[group].Add(i);
-                    else sw.Write($" {i}");
+                    else list[group].Add(i);
+                    //else sw.Write($" {i}");
                     //else line.Append(i);
 
                 }
-                //sw.Write(file);
-                //for (int i = 0; i < file.Count - 1; i++)
-                //{
-                //    //sw.Write($"Группа {i + 1}:");
-                //    //sw.WriteLine(list[i]);
-                //    sw.Write(file);
-                //}
+                int j = 0;
+                // Вывод файла кривой 
+                for (int i = 0; i < list.Count; i++)
+                {
+                    sw.Write($"Группа {i + 1}: ");
+                    if (i < 27) { sw.WriteLine(String.Join(", ", list[i])); }
+                    else sw.WriteLine(list[i]+", ");
+
+                }
 
             }
         }
 
-       /// <summary>
-       /// Метод создаёт файл с задданным числом N
-       /// </summary>
-       /// <param name="fileName"></param>
+        /// <summary>
+        /// Метод создаёт файл с задданным числом N
+        /// </summary>
+        /// <param name="fileName"></param>
         static string CreateFile(string fileName)
         {
             string answer = null;
@@ -195,7 +202,7 @@ namespace Theme6_Add_Ex
             else
             {
                 answer = ($"Вы ввели не верный символ. Введите целое число больше нуля и не больше миллиарда.");
-            }                
+            }
             return answer;
         }
 
@@ -260,7 +267,7 @@ namespace Theme6_Add_Ex
                                     answer = CreateFile(fileName);
                                     Console.WriteLine(answer);
                                     Console.ReadKey();
-                                }                               
+                                }
                                 break;
                             }
 
@@ -273,7 +280,7 @@ namespace Theme6_Add_Ex
                                     date = DateTime.Now; // Считываем текущее время начала вычисления
                                     GetGroupFile(Convert.ToInt32(number), path);
                                     TimeSpan timeSpan = DateTime.Now.Subtract(date);  // Получаем разницу времени между началом и окончанием вычислений
-                                    Console.WriteLine($"\nФайл {path} сохранен..."); 
+                                    Console.WriteLine($"\nФайл {path} сохранен...");
                                     Console.WriteLine($"\nВычисление и запись в файл количества групп неделимых чисел от числа {number}" +
                                         $"\nзаняла {timeSpan.TotalMilliseconds} миллисекунд " +
                                         $"\nили {timeSpan.TotalSeconds} секунд " +

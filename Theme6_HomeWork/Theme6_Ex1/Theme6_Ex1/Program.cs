@@ -41,60 +41,13 @@ namespace Theme6_Ex1
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns>StringBuilder</returns>
-        static bool WriteToFile(string fileName)
+        static bool WriteToFile(string fileName, string note)
         {
             if (File.Exists(fileName)) // Определяет, существует ли заданный файл.
-            {
-                int countLines = 0;
-                using (StreamReader sr = new StreamReader(fileName))
-                {
-                    while ((sr.ReadLine()) != null) // Пока в потоке есть данные, считываем построчно
-                    {
-                        countLines++; // Считаем строки в файле, чтобы присвоить ID следующей записи
-                    }
-                }
+            {                
                 using (StreamWriter sw = new StreamWriter(fileName, true))
                 {
-                    char key = 'д';
-                    //ID
-                    //Дату и время добавления записи
-                    //Ф.И.О.
-                    //Возраст
-                    //Рост
-                    //Дату рождения
-                    //Место рождения
-
-                    do
-                    {
-                        string note = string.Empty;
-
-                        note += $"{countLines + 1}#"; // Добавляем в строку ID
-
-                        string now = DateTime.Now.ToShortTimeString(); // Добавляем в строку текущее время
-                        note += $"{now}#";
-
-                        Console.Write("\nВведите фамилию имя и отчество сотрудника через пробел: ");
-                        note += $"{Console.ReadLine()}#";
-
-                        Console.Write("Введите возраст сотрудника: ");
-                        note += $"{Console.ReadLine()}#";
-
-                        Console.Write("Введите рост сотрудника: ");
-                        note += $"{Console.ReadLine()}#";
-
-                        Console.Write("Введите дату рождения сотрудника: ");
-                        note += $"{Console.ReadLine()}#";
-
-                        Console.Write("Введите место рождения сотрудника: ");
-                        note += $"{Console.ReadLine()}#";
-
-                        sw.WriteLine(note); // Добавляем сформированную строку в файл
-
-                        Console.WriteLine($"Данные сотрудника добавлены в справочник.");
-                        Console.Write("Продожить н/д"); key = Console.ReadKey(true).KeyChar;
-                        countLines++;
-
-                    } while (char.ToLower(key) == 'д');
+                    sw.WriteLine(note); //записываем строку в файл
                 }
                 return true; // Данные внесены в файл
             }
@@ -103,6 +56,32 @@ namespace Theme6_Ex1
                 return false; // Файла не существует
             }
         }
+
+        /// <summary>
+        /// Метод, формирует строку для записи в файл
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="line"></param>
+        /// <returns></returns>
+        static string CreateLine(string fileName, string[] line)
+        {
+            string note = null;
+            int countLines = 0;
+            using (StreamReader sr = new StreamReader(fileName))
+            {
+                while ((sr.ReadLine()) != null) // Пока в потоке есть данные, считываем построчно
+                {
+                    countLines++; // Считаем строки в файле, чтобы присвоить ID следующей записи
+                }
+            }
+            string now = DateTime.Now.ToShortTimeString(); // Добавляем в строку текущее время
+            note = $"{countLines + 1}#{now}#{line[0]}#{line[1]}#{line[2]}#{line[3]}#{line[4]}"; // Подготавливаем строку
+            return note;
+        }
+        /// <summary>
+        /// Главный метод программы
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             while (1 == 1)
@@ -143,19 +122,64 @@ namespace Theme6_Ex1
 
                         case 2: // Заполняем данные и пишем в файл
                             {
-                                bool writed;
-                                if (writed = WriteToFile(fileName))
+                                if (File.Exists(fileName)) // Определяет, существует ли заданный файл.
                                 {
-                                    Console.WriteLine("Изменения сохранены в файл...");
-                                    break;
+                                    //ID
+                                    //Дату и время добавления записи
+                                    //Ф.И.О.
+                                    //Возраст
+                                    //Рост
+                                    //Дату рождения
+                                    //Место рождения
+                                    char keyD = 'д';
+                                    
+                                    do
+                                    {
+                                        string note = string.Empty;
+                                        string[] line = new string[5];
+
+                                        Console.Write("\nВведите фамилию имя и отчество сотрудника через пробел: ");
+                                        line[0] = Console.ReadLine();
+
+                                        Console.Write("Введите возраст сотрудника: ");
+                                        line[1] = Console.ReadLine();
+
+                                        Console.Write("Введите рост сотрудника: ");
+                                        line[2] = Console.ReadLine();
+
+                                        Console.Write("Введите дату рождения сотрудника: ");
+                                        line[3] = Console.ReadLine();
+
+                                        Console.Write("Введите место рождения сотрудника: ");
+                                        line[4] = Console.ReadLine();
+
+                                        note = CreateLine(fileName, line); // Вызываем метод подготовки строки
+
+                                        if (WriteToFile(fileName, note)) // Вызываем метод записи строки о сотруднике в файл
+                                        {
+                                            Console.WriteLine($"Данные сотрудника добавлены в справочник.");
+                                            Console.Write("Продожить н/д");
+                                            keyD = Console.ReadKey(true).KeyChar;
+                                            //break;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine($"Ошибка записи в файл... Нажмите любую кнопку...");
+                                            Console.ReadKey();
+                                            break;
+                                        }
+
+                                    } while (char.ToLower(keyD) == 'д');
+
+
                                 }
                                 else
                                 {
                                     File.Create(fileName).Close();
-                                    Console.WriteLine($"Программа не нашла файл {fileName}... Теперь он создан, нажмите любую кнопку...");
+                                    Console.WriteLine($"Программа не нашла файл {fileName}... Теперь он создан...");
                                     Console.ReadKey();
-                                    break;
                                 }
+                                break;
                             }
                         default:
                             {
